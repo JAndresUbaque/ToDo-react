@@ -1,0 +1,11 @@
+ul { list-style: none; padding: 0; }
+li { display: flex; gap: 8px; align-items: center; padding: 6px 0; }
+.done { text-decoration: line-through; color: gray; }
+input[type="checkbox"] { width: 18px; height: 18px; }
+button { cursor: pointer; }
+.edit-input {
+    padding: 6px 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
