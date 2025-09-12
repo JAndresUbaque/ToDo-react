@@ -2,14 +2,17 @@ import { useEffect, useState } from 'react'
 import Header from "./components/Header"
 import Todoform from './components/TodoForm'
 import TodoList from './components/TodoList'
+import Filters from './components/Filters'
 
-
+// estasdo principal de tareas
 export default function App() {
   const [todos, setTodos]= useState(() => {
     const stored = localStorage.getItem('todos')
     return stored ? JSON.parse(stored) :[]
   })
     
+  const [filter, setFilter] = useState('all')
+
   // Guardar en localStorage cada vez que cambien las tareas
   useEffect(() =>{
     localStorage.setItem('todos', JSON.stringify(todos))
@@ -38,13 +41,28 @@ export default function App() {
     setTodos(prev => prev.map( t=> t.id === id ?{...t, text: cleaned} :t))
   }
 
+  function clearCompleted() {
+    setTodos(prev => prev.filter(t => !t.done))
+  }
+
+  const visible= filter === 'all'
+  ? todos
+  :filter === 'active'
+   ? todos.filter(t => !t.done)
+   : todos.filter(t => !t.done)
 
 return (
 <div>
   <Header/>
   <Todoform onAdd={addTodo} />
+
+  <div className="controls">
+  <Filters current={filter} onChange={setFilter}/>
+  <button onClick={clearCompleted}>Borrar Completadas</button>
+  </div>
+
   <TodoList
-  items={todos}
+  items={visible}
   onToggle={toggleTodo} 
   onDelete={deleteTodo}
   onEdit={editTodo}

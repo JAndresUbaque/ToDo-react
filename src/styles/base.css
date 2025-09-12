@@ -9,3 +9,9 @@ button { cursor: pointer; }
     border: 1px solid #ccc;
     border-radius: 6px;
 }
+.filters { display: flex; gap: 8px; margin-bottom: 8px; }
+.filters button[aria-pressed="true"] {
+  font-weight: 700;
+  text-decoration: underline;
+}
+.controls { display: flex; gap: 12px; align-items: center; margin: 12px 0; }
