@@ -1,17 +1,251 @@
-ul { list-style: none; padding: 0; }
-li { display: flex; gap: 8px; align-items: center; padding: 6px 0; }
-.done { text-decoration: line-through; color: gray; }
-input[type="checkbox"] { width: 18px; height: 18px; }
-button { cursor: pointer; }
-.edit-input {
-    padding: 6px 8px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-.filters { display: flex; gap: 8px; margin-bottom: 8px; }
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f4f6f8; /* gris claro de fondo */
+  display: flex;
+  justify-content: center; /* centra horizontal */
+  align-items: center;     /* centra vertical */
+  min-height: 100vh;       /* altura total ventana */
+}
+
+/* === Contenedor principal === */
+#root {
+  width: 100%;
+  max-width: 500px;         /* límite ancho */
+  background: rgb(216, 235, 244);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* sombra ligera */
+}
+
+header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+header h1 {
+  font-size: 1.8rem;
+  color: #333;
+}
+
+
+form {
+  display: flex;             /* Coloca input y botón en línea */
+  gap: 8px;                  /* Espacio entre input y botón */
+  margin-bottom: 20px;       /* Separación del listado */
+}
+
+form input {
+  flex: 1;                   /* Ocupa todo el espacio disponible */
+  padding: 10px;             /* Espacio interior */
+  border: 1px solid #ccc;    /* Borde gris claro */
+  border-radius: 6px;        /* Bordes redondeados */
+  font-size: 1rem;           /* Tamaño de texto legible */
+}
+
+form button {
+  padding: 10px 16px;         /* Espacio interno */
+  border: none;               /* Sin borde */
+  background: #28a745;        /* Verde agradable */
+  color: white;               /* Texto blanco */
+  font-size: 1rem;            /* Tamaño legible */
+  border-radius: 6px;         /* Bordes redondeados */
+  cursor: pointer;            /* Mano al pasar */
+  transition: background 0.3s; /* Animación suave */
+}
+
+form button:hover {
+  background: #218838;        /* Verde más oscuro al pasar */
+}
+
+ul { list-style: none; 
+    padding: 0;
+    margin: 0;
+    }
+li {
+     display: flex; 
+     gap: 8px; 
+     align-items: center; 
+     justify-content: space-between;
+     padding: 8px 0;
+     border: 1px solid #eee; 
+    }
+
+li span{
+    flex: 1;
+    margin: 0 10px;
+    font-size: 1rem;
+}
+
+.done { 
+    text-decoration: line-through;
+     color: gray; 
+     transition: all 0,3s ease; /* trasicion suave al tachar*/
+    }
+
+input[type="checkbox"] {
+     width: 18px;
+      height: 18px;
+      cursor: pointer; 
+    }
+
+li button {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+li button:first-of-type {
+  background: #feefc0;  /* Amarillo (editar) */
+  color: #454444;
+}
+
+li button:first-of-type:hover {
+  background: #e0a800;
+}
+
+li button:last-of-type {
+  background: #ffa6af;  /* Rojo (borrar) */
+  color: rgb(50, 50, 50);
+}
+
+li button:last-of-type:hover {
+  background: #c82333;
+}
+
+li:hover{
+background: rgba(0,0,0,0.03);
+border-radius: 6px;
+}
+
+li, li button, li span {
+  transition: all 0.3s ease;
+}
+
+.controls button.active {
+  background: #76e1c4;   /* Azul */
+  color: white;
+  font-weight: bold;
+}
+
+button { 
+    cursor: pointer; 
+}
+
+.edit-input {
+  padding: 6px 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;              /* ocupa el mismo ancho que el span */
+  box-sizing: border-box;   /* padding y borde dentro del ancho */
+}
+
+.filters { 
+    display: flex; 
+    gap: 8px; 
+    margin-bottom: 8px; 
+}
+
 .filters button[aria-pressed="true"] {
   font-weight: 700;
   text-decoration: underline;
 }
-.controls { display: flex; gap: 12px; align-items: center; margin: 12px 0; }
+.controls { 
+    display: flex;
+     gap: 12px; 
+     align-items: center; 
+     margin: 12px 0; }
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  opacity: 0;
+  transform: translateY(-10px);
+  animation: fadeIn 0.4s forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fade-out {
+  opacity: 0;
+  transform: translateX(20px);
+  transition: all 0.3s ease;
+}
+
+.view-mode,
+.edit-input {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(-50%);
+  width: 100%;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+ 
+}
+
+/* Estado inicial: oculto */
+.view-mode {
+  flex: 1;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.95);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.view-mode.hidden {
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+}
+
+/* Cuando está visible */
+.view-mode.visible {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+/* Cuando editing está activo */
+.edit-input[aria-hidden="false"] {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+.fade-in-down {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-out-up {
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none; /* evita que interfiera */
+}
+
+.fade-in-up {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-out-down {
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+}
+

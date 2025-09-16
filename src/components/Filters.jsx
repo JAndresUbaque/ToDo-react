@@ -1,21 +1,26 @@
-export default function Filters({ current, onChange}) {
-    return (
-        <div role="tablist" className="filters">
-            <button aria-pressed={current === 'all'} 
-            onClick={() => onChange('all')}>
-                Todas
-          </button> 
+export default function Filters({ current, onChange }) {
+  return (
+    <>
+      <button 
+        onClick={() => onChange("all")} 
+        className={current === "all" ? "active" : ""}
+      >
+        Todas
+      </button>
 
-          <button aria-pressed={ current === 'active'}
-          onClick={() => onchange('active')}> 
-            Activas 
-          </button>
+      <button 
+        onClick={() => onChange("active")} 
+        className={current === "active" ? "active" : ""}
+      >
+        Activas
+      </button>
 
-          <button aria-pressed ={current === 'done'}
-          onClick={() => onChange('done')}>
-           Completadas
-          </button>
-
-        </div>
-    )
+      <button 
+        onClick={() => onChange("done")} 
+        className={current === "done" ? "active" : ""}
+      >
+        Completadas
+      </button>
+    </>
+  )
 }

@@ -4,9 +4,8 @@ export default  function TodoItem({todo, onToggle, onDelete, onEdit }){
 
     const [editing, setEditing] = useState(false)
     const [draft, setDraft] = useState(todo.text)
-
-    const  inputRef= useRef(null)
-    
+    const inputRef = useRef(null)
+        
       useEffect(() => {
     if (editing) {
       setDraft(todo.text)               // cargamos el texto actual en el draft
@@ -34,30 +33,38 @@ export default  function TodoItem({todo, onToggle, onDelete, onEdit }){
       setEditing(false)
     }
   }
+
+  function handleDelete() {
+    const li = document.getElementById(`todo-${todo.id}`) // seleccionamos el <li>
+    li.classList.add("fade-out")                          // le aplicamos la animación
+    setTimeout(() => onDelete(todo.id), 300)              // esperamos 300ms y borramos
+    } 
     
     return(
-    <li>
+    <li id={`todo-${todo.id}`} className="todo-item">
         <input
         type="checkbox"
         checked={todo.done}
         onChange={() => onToggle(todo.id)}
         />
-        {editing ?  (  
-        <input
+
+        {editing ? (
+       <input
         ref={inputRef}
         className="edit-input"
         value={draft}
         onChange={(e)=> setDraft(e.target.value)}
         onKeyDown={handleKeyDown}
         onBlur={handleSave}
+        aria-hidden={!editing}
         /> 
-        ) : (
-        <span className={todo.done ? 'done' : ''}>{todo.text}</span>
-        ) }
-
+        ):( 
+          <span className={todo.done ? "done" : ""}>{todo.text}</span>
+      )}
         <button onClick={()=> editing ? handleSave():setEditing(true)}>{editing ? 'Guardar' : 'Editar'}</button>
         
-        <button onClick={()=> onDelete(todo.id)}>Borrar</button>          
+        <button onClick={handleDelete}>Borrar</button>
+         
     </li>
 )
 }

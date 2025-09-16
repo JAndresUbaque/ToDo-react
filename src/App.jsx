@@ -45,12 +45,12 @@ export default function App() {
     setTodos(prev => prev.filter(t => !t.done))
   }
 
-  const visible= filter === 'all'
+ const visible = filter === 'all'
   ? todos
-  :filter === 'active'
-   ? todos.filter(t => !t.done)
-   : todos.filter(t => !t.done)
-
+  : filter === 'active'
+    ? todos.filter(t => !t.done)
+    : todos.filter(t => t.done)
+    
 return (
 <div>
   <Header/>
