@@ -42,7 +42,7 @@ export default  function TodoItem({todo, onToggle, onDelete, onEdit }){
     
     return(
     <li id={`todo-${todo.id}`} className="todo-item">
-        <input
+       <div className="todo-content"> <input
         type="checkbox"
         checked={todo.done}
         onChange={() => onToggle(todo.id)}
@@ -55,16 +55,19 @@ export default  function TodoItem({todo, onToggle, onDelete, onEdit }){
         value={draft}
         onChange={(e)=> setDraft(e.target.value)}
         onKeyDown={handleKeyDown}
-        onBlur={handleSave}
         aria-hidden={!editing}
         /> 
         ):( 
           <span className={todo.done ? "done" : ""}>{todo.text}</span>
       )}
-        <button onClick={()=> editing ? handleSave():setEditing(true)}>{editing ? 'Guardar' : 'Editar'}</button>
+
+      </div> 
+        <div className="actions">
+        <button className={editing ? "save-btn" : "edit-btn"} 
+        onClick={()=> editing ? handleSave():setEditing(true)}>{editing ? 'Guardar' : 'Editar'}</button>
         
-        <button onClick={handleDelete}>Borrar</button>
-         
+        <button className="delete-btn" onClick={handleDelete}>Borrar</button>
+         </div>
     </li>
 )
 }

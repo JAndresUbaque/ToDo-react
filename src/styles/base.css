@@ -145,8 +145,10 @@ button {
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 6px;
-  width: 100%;              /* ocupa el mismo ancho que el span */
-  box-sizing: border-box;   /* padding y borde dentro del ancho */
+  flex: auto;
+  min-width: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  box-sizing: border-box;
 }
 
 .filters { 
@@ -168,11 +170,13 @@ button {
 .todo-item {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: space-between;
+  gap: 12px;
   padding: 8px;
   opacity: 0;
   transform: translateY(-10px);
   animation: fadeIn 0.4s forwards;
+  border-bottom: 1px solid #eee;
 }
 
 @keyframes fadeIn {
@@ -185,46 +189,6 @@ button {
   opacity: 0;
   transform: translateX(20px);
   transition: all 0.3s ease;
-}
-
-.view-mode,
-.edit-input {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translate(-50%);
-  width: 100%;
-  transition: opacity 0.3s ease, transform 0.3s ease;
- 
-}
-
-/* Estado inicial: oculto */
-.view-mode {
-  flex: 1;
-  opacity: 0;
-  pointer-events: none;
-  transform: scale(0.95);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.view-mode.hidden {
-  opacity: 0;
-  transform: scale(0.95);
-  pointer-events: none;
-}
-
-/* Cuando está visible */
-.view-mode.visible {
-  opacity: 1;
-  transform: scale(1);
-  pointer-events: auto;
-}
-
-/* Cuando editing está activo */
-.edit-input[aria-hidden="false"] {
-  opacity: 1;
-  transform: scale(1);
-  pointer-events: auto;
 }
 
 .fade-in-down {
@@ -249,3 +213,53 @@ button {
   pointer-events: none;
 }
 
+.todo-content {
+  display: flex;
+  align-items: center;
+  flex: 1; /* ocupa todo el espacio disponible */
+  gap: 8px;
+  min-width: 0;
+}
+.todo-content input[type="checkbox"] {
+  flex-shrink: 0; /* checkbox fijo */
+}
+
+.todo-content .edit-input,
+.todo-content span  {
+  flex: auto;  
+  min-width: 0; /* evita que empuje los botones */
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.edit-btn {
+  background: #feefc0;
+  color: #454444;
+  border-radius: 4px;
+  padding: 6px 10px;
+}
+
+.edit-btn:hover { background: #e0a800; color: white; }
+
+.save-btn {
+  background: #c0e8fe;
+  color: #333;
+  border-radius: 4px;
+  padding: 6px 10px;
+}
+
+.save-btn:hover { background: #1a73e8; color: white; }
+
+.delete-btn {
+  background: #ffa6af;
+  color: #323232;
+  border-radius: 4px;
+  padding: 6px 10px;
+}
+
+.delete-btn:hover { background: #c82333; color: white; }
